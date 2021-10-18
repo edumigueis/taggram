@@ -8,9 +8,9 @@
         <div v-if="post" class="wrapper-item wrapper-item-big">
           <img :src="post.photo" alt="Post Photo" />
         </div>
-        <Comments v-if="post" :post="post" />
+        <Comments v-if="post && currentUser" :post="post" :currentUser="currentUser" />
       </div>
-      <MorePosts></MorePosts>
+      <MorePosts v-if="post" :postUuid="post.uuid"></MorePosts>
       <Footer />
     </div>
   </div>

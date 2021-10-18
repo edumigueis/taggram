@@ -4,7 +4,7 @@
       <UserData v-if="post.user" :post="post" />
       <div v-if="comments != null" class="comments-wrapper">
         <div v-for="comment in comments" :key="comment.uuid">
-          <Comment :content="comment" />
+          <Comment :content="comment" :currentUser="currentUser"/>
         </div>
       </div>
 
@@ -28,7 +28,7 @@ export default {
   data() {
     return { comments: this.post.comments };
   },
-  props: ["post"],
+  props: ["post", "currentUser"],
 };
 </script>
 
@@ -43,5 +43,21 @@ export default {
 .comments-wrapper{
   max-height: calc(100% - 145px);
   overflow-y: scroll;
+}
+
+/* width */
+.comments-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+.comments-wrapper::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+/* Handle */
+.comments-wrapper::-webkit-scrollbar-thumb {
+  background: #dbdbdb;
+  border-radius: 5px;
 }
 </style>

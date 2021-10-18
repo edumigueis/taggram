@@ -1,24 +1,9 @@
 <template>
   <div class="container">
       <h3 class="title">Mais publicações</h3>
-    <div class="grid">
-      <div class="img-wrapper">
-        <img src="../assets/images/1.jpg" alt="Recommended Picture" />
-      </div>
-      <div class="img-wrapper">
-        <img src="../assets/images/2.jpg" alt="Recommended Picture" />
-      </div>
-      <div class="img-wrapper">
-        <img src="../assets/images/3.jpg" alt="Recommended Picture" />
-      </div>
-      <div class="img-wrapper">
-        <img src="../assets/images/4.jpg" alt="Recommended Picture" />
-      </div>
-      <div class="img-wrapper">
-        <img src="../assets/images/5.jpg" alt="Recommended Picture" />
-      </div>
-      <div class="img-wrapper">
-        <img src="../assets/images/6.jpg" alt="Recommended Picture" />
+    <div class="grid" v-if="relatedList.length > 0">
+      <div class="img-wrapper" v-for="(related, i) in relatedList" :key="i">
+        <img :src="related.photo" alt="Recommended Picture" />
       </div>
     </div>
   </div>
@@ -27,7 +12,16 @@
 <script>
 export default {
   name: "MorePosts",
-  props: {},
+  props: ["postUuid"],
+  data(){
+      return {relatedList: []}
+  },
+  created() {
+            fetch(`https://taggram.herokuapp.com/posts/${this.postUuid}/related`)
+                .then((res) => res.json())
+                .then((data) => ((this.relatedList = data.filter(r => r.comment_count >= 3)), console.log(this.relatedList)))
+                .catch((err) => console.log(err));
+  }
 };
 </script>
 
