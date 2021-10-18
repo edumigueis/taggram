@@ -2,8 +2,10 @@
   <div class="container">
     <div class="image">
       <img v-if="post.user.avatar" :src="post.user.avatar" alt="User Avatar" />
+      <img v-else src="../assets/icons/user.jpg"
+          alt="User Avatar"/>
     </div>
-    <div class="text-data">
+    <div class="text-data" v-if="post">
       <h3>{{post.user.username}}</h3>
       <h4>{{post.location.city}}, {{post.location.country}}</h4>
     </div>

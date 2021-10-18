@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <h4>{{post.comments.length}} comentários</h4>
-    <h6>22/04/2020 - 9:10</h6>
+    <h4 v-if="post.comments != null">{{post.comments.length}} comentários</h4>
+    <h6>{{post.created_at}}</h6>
   </div>
 </template>
 
@@ -9,9 +9,6 @@
 export default {
   name: 'Statistics',
   props: ["post"],
-   created() {
-    console.log(this.post.comments)  //undefined;
-  },
 }
 </script>
 

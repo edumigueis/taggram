@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper-item wrapper-item-small">
     <div class="container comments">
-      <UserData v-if="post" :post="post" />
-      <div v-if="post.comments.length > 0" class="comments-wrapper">
+      <UserData v-if="post.user" :post="post" />
+      <div v-if="comments != null" class="comments-wrapper">
         <div v-for="comment in comments" :key="comment.uuid">
           <Comment :content="comment" />
         </div>

@@ -1,14 +1,14 @@
 <template>
   <div id="app">
+    <div v-if="currentUser">
+      <Header :currentUser="currentUser"></Header>
+    </div>
     <div id="main-app-container">
-      <div v-if="currentUser">
-        <Header :currentUser="currentUser"></Header>
-      </div>
       <div class="wrapper">
         <div v-if="post" class="wrapper-item wrapper-item-big">
           <img :src="post.photo" alt="Post Photo" />
         </div>
-          <Comments v-if="post" :post="post" />
+        <Comments v-if="post" :post="post" />
       </div>
       <MorePosts></MorePosts>
       <Footer />
@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       currentUser: {},
+      post: null,
     };
   },
   methods: {
@@ -72,6 +73,7 @@ body {
   color: #262626;
   margin: 0;
   width: 100vw;
+  background-color: #e5e5e5;
 }
 * {
   box-sizing: border-box;
@@ -82,6 +84,7 @@ body {
   width: 80vw;
 }
 .wrapper {
+  background-color: white;
   display: flex;
   flex-wrap: nowrap;
   flex-flow: row;

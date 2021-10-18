@@ -7,6 +7,8 @@
           :src="content.user.avatar"
           alt="User Avatar"
         />
+        <img v-else src="../assets/icons/user.jpg"
+          alt="User Avatar"/>
       </div>
     </div>
     <div class="text-data">
@@ -17,8 +19,8 @@
         </p>
       </div>
       <div class="bottom-text">
-        <h6 class="time">{{ content.created_at }}</h6>
-        <h6 class="likes">{{ content.like_count }}</h6>
+        <h6 class="time">{{ timeFrom(content.created_at) }}</h6>
+        <h6 class="likes">{{ content.like_count }} curtidas</h6>
       </div>
     </div>
   </div>
@@ -28,6 +30,26 @@
 export default {
   name: "Comment",
   props: ["content"],
+  methods: {
+    timeFrom: (time) =>{
+            var passedTime = new Date() - new Date(time);
+
+            passedTime /= 1000;
+            var seconds = Math.round(passedTime);
+            var minutes = Math.round(seconds / 60);
+            var hours = Math.round(minutes / 60);
+            var days =  Math.round(hours / 24);
+            if (days > 0)
+                return `${days}d`;
+            if (hours > 0)
+                return `${hours}h`;
+            if (minutes > 0)
+                return `${minutes}min`;
+            if(!isNaN(seconds))
+                return `${seconds}sec`;
+            return time;
+    }
+  }
 };
 </script>
 
