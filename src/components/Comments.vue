@@ -4,7 +4,7 @@
       <UserData v-if="post.user" :post="post" />
       <div v-if="comments != null" class="comments-wrapper">
         <div v-for="comment in comments" :key="comment.uuid">
-          <Comment :content="comment" :currentUser="currentUser"/>
+          <Comment  @error="sendError" :content="comment" :currentUser="currentUser"/>
         </div>
       </div>
 
@@ -29,6 +29,11 @@ export default {
     return { comments: this.post.comments };
   },
   props: ["post", "currentUser"],
+  methods: {
+    sendError(response){
+      this.$emit('error', response);
+    }
+  }
 };
 </script>
 

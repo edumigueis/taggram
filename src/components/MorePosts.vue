@@ -19,7 +19,7 @@ export default {
   created() {
             fetch(`https://taggram.herokuapp.com/posts/${this.postUuid}/related`)
                 .then((res) => res.json())
-                .then((data) => ((this.relatedList = data.filter(r => r.comment_count >= 3)), console.log(this.relatedList)))
+                .then((data) => (this.relatedList = data.filter(r => r.comment_count >= 3)))
                 .catch((err) => console.log(err));
   }
 };

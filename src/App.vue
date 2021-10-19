@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Modal @close="closeModal" v-show="isModalVisible" title="Ops... Algo deu errado." message="Estamos com problemas, tente novamente mais tarde."/>
     <div v-if="currentUser">
       <Header :currentUser="currentUser"></Header>
     </div>
@@ -8,7 +9,7 @@
         <div v-if="post" class="wrapper-item wrapper-item-big">
           <img :src="post.photo" alt="Post Photo" />
         </div>
-        <Comments v-if="post && currentUser" :post="post" :currentUser="currentUser" />
+        <Comments @error="showModal" v-if="post && currentUser" :post="post" :currentUser="currentUser" />
       </div>
       <MorePosts v-if="post" :postUuid="post.uuid"></MorePosts>
       <Footer />
@@ -17,6 +18,7 @@
 </template>
 
 <script>
+import Modal from "./components/Modal.vue";
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import Comments from "./components/Comments.vue";
@@ -25,6 +27,7 @@ import MorePosts from "./components/MorePosts.vue";
 export default {
   name: "App",
   components: {
+    Modal,
     Header,
     Footer,
     Comments,
@@ -34,6 +37,7 @@ export default {
     return {
       currentUser: {},
       post: null,
+      isModalVisible: false,
     };
   },
   methods: {
@@ -41,7 +45,7 @@ export default {
       fetch("https://taggram.herokuapp.com/me")
         .then((res) => res.json())
         .then((data) => ((this.currentUser = data), this.getPost()))
-        .catch((err) => console.log(err));
+        .catch((err) => (this.showModal(), console.log(err)));
     },
     getPost: function () {
       fetch(
@@ -49,9 +53,15 @@ export default {
           this.currentUser.username
       )
         .then((res) => res.json())
-        .then((data) => ((this.post = data), console.log(this.post)))
-        .catch((err) => console.log(err));
+        .then((data) => (this.post = data))
+        .catch((err) => (this.showModal(), console.log(err)));
     },
+    showModal: function(){
+      this.isModalVisible = true;
+    },
+    closeModal: function(){
+      this.isModalVisible = false;
+    }
   },
   created() {
     this.getUser();
@@ -60,6 +70,21 @@ export default {
 </script>
 
 <style>
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #dbdbdb;
+  border-radius: 5px;
+}
 body {
   overflow-x: hidden;
   margin: 0;

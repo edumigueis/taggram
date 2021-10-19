@@ -70,7 +70,6 @@ export default {
     },
     like(uuid) {
       var resp;
-      console.log("passou");
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -80,14 +79,15 @@ export default {
         `https://taggram.herokuapp.com/comments/${uuid}/like`,
         requestOptions
       )
-        .then((response) => (resp = response, response.json()))
-        .then((data) => (resp.status == 200 ? this.comment = data : console.log("deu erro")))
-        .catch((err) => console.log(err));
+        .then((response) => ((resp = response), response.json()))
+        .then((data) =>
+          resp.status == 200 ? (this.comment = data) : this.sendError(resp)
+        )
+        .catch((err) => (this.sendError(resp), console.log(err)));
     },
 
     removeLike(uuid) {
       var resp;
-      console.log("passou no remover like");
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -97,10 +97,16 @@ export default {
         `https://taggram.herokuapp.com/comments/${uuid}/unlike`,
         requestOptions
       )
-        .then((response) => (resp = response, response.json()))
-        .then((data) => (resp.status == 200 ? this.comment = data : console.log("deu erro")))
-        .catch((err) => console.log(err));
+        .then((response) => ((resp = response), response.json()))
+        .then((data) =>
+          resp.status == 200 ? (this.comment = data) : this.sendError(resp)
+        )
+        .catch((err) => (this.sendError(resp), console.log(err)));
     },
+
+    sendError(response){
+      this.$emit('error', response);
+    }
   },
 };
 </script>
